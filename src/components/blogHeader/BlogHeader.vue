@@ -1,38 +1,27 @@
 <template>
-  <div>header
-    <div class="navBox">
-      <nav class="nav">
-        <input type="checkbox" class="nav__cb" id="menu-cb">
-        <div class="nav__content">
-          <ul class="nav__items">
-            <li class="nav__item"><span class="nav__item-text" @click="toHome"> 首页 </span></li>
-            <li class="nav__item"><span class="nav__item-text"> 分类 </span></li>
-            <li class="nav__item"><span class="nav__item-text"> 标签 </span></li>
-            <li class="nav__item"><span class="nav__item-text"> 关于 </span></li>
-          </ul>
-        </div>
-        <label class="nav__btn" for="menu-cb"></label>
-      </nav>
-    </div>
-
-    <div class="imageBox">
-
-    </div>
-
+  <div class="imageBox">
+    <img src="https://blog-lh.oss-cn-chengdu.aliyuncs.com/2021-12-22/8a16a90e8efdbf6ae75e3d29a29b4696.jpg" alt="">
+    <blog-search/>
   </div>
 </template>
 
 <script>
+import BlogSearch from '../blogSearch/BlogSearch.vue';
+
+import RightNavBar from "../rightNavBar/RightNavBar";
 
 export default {
+  components: { BlogSearch },
+
+
   name: "BlogHeader",
   data() {
     return {}
   },
   methods: {
     //跳转到首页
-    toHome(){
-      window.location.href="http://localhost:8080"
+    toHome() {
+      window.location.href = "http://localhost:8080"
     }
   },
   mounted: {}
@@ -40,190 +29,5 @@ export default {
 </script>
 
 <style scoped>
-
-.navBox{
-  position: relative;
-}
-
-.nav {
-  overflow: hidden;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: auto;
-  height: 90px;
-  /*margin-top: -45px;*/
-  background: #fff;
-  border-radius: 5px;
-  -webkit-transform: translate3d(-50%, 0, 0);
-  transform: translate3d(-50%, 0, 0);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-}
-
-.nav__cb {
-  z-index: -1000;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.nav__content {
-  position: relative;
-  width: 90px;
-  height: 100%;
-  -webkit-transition: width 1s cubic-bezier(0.49, -0.3, 0.68, 1.23);
-  transition: width 1s cubic-bezier(0.49, -0.3, 0.68, 1.23);
-}
-
-.nav__cb:checked ~ .nav__content {
-  -webkit-transition: width 1s cubic-bezier(0.48, 0.43, 0.29, 1.3);
-  transition: width 1s cubic-bezier(0.48, 0.43, 0.29, 1.3);
-  width: 410px;
-}
-
-.nav__items {
-  position: relative;
-  width: 410px;
-  height: 100%;
-  padding-left: 20px;
-  padding-right: 110px;
-  list-style-type: none;
-  font-size: 0;
-}
-
-.nav__item {
-  display: inline-block;
-  vertical-align: top;
-  width: 70px;
-  text-align: center;
-  color: #6C7784;
-  font-size: 14px;
-  line-height: 90px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  -webkit-perspective: 1000px;
-  perspective: 1000px;
-  -webkit-transition: color 0.3s;
-  transition: color 0.3s;
-  cursor: pointer;
-}
-
-.nav__item:hover {
-  color: #00bdea;
-}
-
-.nav__item-text {
-  display: block;
-  height: 100%;
-  -webkit-transform: rotateY(-70deg);
-  transform: rotateY(-70deg);
-  opacity: 0;
-  -webkit-transition: opacity 0.7s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-  transition: opacity 0.7s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-  transition: transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5), opacity 0.7s;
-  transition: transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5), opacity 0.7s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-}
-
-.nav__cb:checked ~ .nav__content .nav__item-text {
-  -webkit-transform: rotateY(0);
-  transform: rotateY(0);
-  opacity: 1;
-  -webkit-transition: opacity 0.2s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-  transition: opacity 0.2s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-  transition: transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5), opacity 0.2s;
-  transition: transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5), opacity 0.2s, -webkit-transform 0.7s cubic-bezier(0.48, 0.43, 0.7, 2.5);
-}
-
-.nav__item:nth-child(1) .nav__item-text {
-  -webkit-transition-delay: 0.3s;
-  transition-delay: 0.3s;
-}
-
-.nav__cb:checked ~ .nav__content .nav__item:nth-child(1) .nav__item-text {
-  -webkit-transition-delay: 0s;
-  transition-delay: 0s;
-}
-
-.nav__item:nth-child(2) .nav__item-text {
-  -webkit-transition-delay: 0.2s;
-  transition-delay: 0.2s;
-}
-
-.nav__cb:checked ~ .nav__content .nav__item:nth-child(2) .nav__item-text {
-  -webkit-transition-delay: 0.1s;
-  transition-delay: 0.1s;
-}
-
-.nav__item:nth-child(3) .nav__item-text {
-  -webkit-transition-delay: 0.1s;
-  transition-delay: 0.1s;
-}
-
-.nav__cb:checked ~ .nav__content .nav__item:nth-child(3) .nav__item-text {
-  -webkit-transition-delay: 0.2s;
-  transition-delay: 0.2s;
-}
-
-.nav__item:nth-child(4) .nav__item-text {
-  -webkit-transition-delay: 0s;
-  transition-delay: 0s;
-}
-
-.nav__cb:checked ~ .nav__content .nav__item:nth-child(4) .nav__item-text {
-  -webkit-transition-delay: 0.3s;
-  transition-delay: 0.3s;
-}
-
-.nav__btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 90px;
-  height: 90px;
-  padding: 36px 31px;
-  cursor: pointer;
-}
-
-.nav__btn:before, .nav__btn:after {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 4px;
-  border-radius: 2px;
-  background: #096DD3;
-  -webkit-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-  -webkit-transition: background-color 0.3s, -webkit-transform 1s cubic-bezier(0.48, 0.43, 0.29, 1.3);
-  transition: background-color 0.3s, -webkit-transform 1s cubic-bezier(0.48, 0.43, 0.29, 1.3);
-  transition: transform 1s cubic-bezier(0.48, 0.43, 0.29, 1.3), background-color 0.3s;
-  transition: transform 1s cubic-bezier(0.48, 0.43, 0.29, 1.3), background-color 0.3s, -webkit-transform 1s cubic-bezier(0.48, 0.43, 0.29, 1.3);
-}
-
-.nav__btn:before {
-  margin-bottom: 10px;
-}
-
-.nav__btn:hover:before, .nav__btn:hover:after {
-  background: #00bdea;
-}
-
-.nav__cb:checked ~ .nav__btn:before {
-  -webkit-transform: translateY(7px) rotate(-225deg);
-  transform: translateY(7px) rotate(-225deg);
-}
-
-.nav__cb:checked ~ .nav__btn:after {
-  -webkit-transform: translateY(-7px) rotate(225deg);
-  transform: translateY(-7px) rotate(225deg);
-}
-
-
-.imageBox {
-  display: block;
-  width: 100%;
-  height: 200px;
-}
 
 </style>

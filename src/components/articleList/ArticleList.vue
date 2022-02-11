@@ -46,6 +46,12 @@ export default {
   },
   mounted() {
     this.getArticleList();
+    this.$bus.$on('searchArticleList', (data)=>{
+      this.pageInfo = data
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('searchArticleList')
   },
   methods: {
     getArticleList() {
@@ -56,10 +62,16 @@ export default {
     },
     getPageInfo(pageSize, currentPage) {
       this.loading = true
-      let requestData = {limit: pageSize, page: currentPage}
-      console.log(requestData)
-      // axios.post("http://localhost:9000/blog/article/search", requestData)
-      axios.post("http://121.199.72.90:9000/blog/article/search", requestData)
+      let searchParam = {
+        limit: pageSize,
+        page: currentPage,
+        key: "基础",
+        categoryId: "",
+        labelId: 9
+      }
+      // console.log(searchParam)
+      // axios.post("http://localhost:9000/blog/article/search", searchParam)
+      axios.post("http://121.199.72.90:9000/blog/article/search", searchParam)
         .then((response) => {
           console.log(response)
           this.pageInfo = response.data.data
