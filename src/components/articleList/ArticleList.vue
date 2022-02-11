@@ -79,7 +79,7 @@ export default {
           this.totalCount = this.pageInfo.totalCount
           this.pageSize = this.pageInfo.pageSize
           this.loading = false
-          console.log(this.pageInfo, this.currentPage, this.totalCount, this.pageSize)
+          // console.log(this.pageInfo, this.currentPage, this.totalCount, this.pageSize)
         });
     }
   },

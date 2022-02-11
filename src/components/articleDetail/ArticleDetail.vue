@@ -1,78 +1,35 @@
 <template>
   <!--文章详情-->
   <div
-    class="articleDetail"
+    class="articleDetail1"
     v-loading="loading"
     element-loading-background="rgba(0, 0, 0, 0.6)"
   >
     <!-- 文章头部 -->
-    <div class="articleHeader">
-      <h1 class="title">
-        {{ articleDetail.title }}
-      </h1>
-      <!--文章标签-->
-      <div class="label">
-        <el-tag
-          v-for="label in articleDetail.labels"
-          type="success"
-          :labelId="label.labelId"
-          size="mini"
-          :title="label.description"
-        >
-          {{ label.labelName }}
-        </el-tag>
-        <!--</el-tooltip>-->
-      </div>
-      <!--文章分类-->
-      <div class="category">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item>{{
-            articleDetail.category.categoryName
-          }}</el-breadcrumb-item>
-          <el-breadcrumb-item>{{
-            articleDetail.category.subCategory.categoryName
-          }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-      <!-- 时间 -->
-      <div class="time">
-        <p>最后修改于: {{ articleDetail.publishTime }}</p>
-      </div>
-    </div>
+    <article-header
+      :title="articleDetail.title"
+      :labels="articleDetail.labels"
+      :category="articleDetail.category"
+      :publishTime="articleDetail.publishTime"
+    />
 
     <!--文章内容-->
-    <div class="articleBody" v-html="articleContent"></div>
+    <article-body :articleBody="articleContent" />
 
-    <!--文章评论信息-->
-    <div class="commentInfo">
-      <div class="commentBody" v-for="comment in articleDetail.comments">
-        <!--评论-->
-        <div class="comment">
-          <span>{{ comment.commentNickname }}</span>
-          <span>{{ comment.commentTime }}</span>
-          <p class="comment">{{ comment.content }}</p>
-          <!--回复-->
-          <div class="replyBody" v-for="reply in comment.replyResponseVOS">
-            <span>{{ reply.replyNickname }}</span>
-            <span v-if="reply.parentReplyId != 0">
-              回复 {{ reply.targetNickName }}</span
-            >
-            <br />
-            <span>{{ reply.content }}</span>
-            <p>{{ reply.replyTime }}</p>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
+    <!--文章评论-->
+    <article-comment :commnets="articleDetail.comments"
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import showdown from "showdown";
+import ArticleBody from "../article/ArticleBody.vue";
+import ArticleComment from "../article/ArticleComment.vue";
+import ArticleHeader from "../article/ArticleHeader.vue";
 
 export default {
+  components: { ArticleBody, ArticleComment, ArticleHeader },
   data() {
     return {
       loading: true,
