@@ -13,7 +13,6 @@
 
 <script>
 import axios from "axios";
-import ArticleList from "../articleList/ArticleList.vue";
 export default {
   data() {
     return {
@@ -30,7 +29,8 @@ export default {
       axios
         .post("http://121.199.72.90:9000/blog/article/search", searchParam)
         .then((response) => {
-          this.$bus.$emit('searchArticleList', response.data.data) //发送数据
+          // PubSub.publish("searchArticleList", response.data.data)
+          this.$bus.$emit("searchArticleList", response.data.data); //发送数据
         });
     },
   },
@@ -40,14 +40,6 @@ export default {
 
     
 <style>
-.imageBox {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
 .searchBox {
   position: absolute;
   top: 200px;

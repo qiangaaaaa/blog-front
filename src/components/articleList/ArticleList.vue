@@ -7,9 +7,15 @@
         v-loading="loading"
         element-loading-background="rgba(0, 0, 0, 0.6)"
       >
-        <li class="infinite-list-item listBody" v-for="article in pageInfo.list">
-          <img :src="article.imageUrl" alt="">
-          <router-link :to="{ path: 'article/' + article.articleId }" tag="span">
+        <li
+          class="infinite-list-item listBody"
+          v-for="article in pageInfo.list"
+        >
+          <img :src="article.imageUrl" alt="" />
+          <router-link
+            :to="{ path: 'article/' + article.articleId }"
+            tag="span"
+          >
             <h1 v-html="article.title"></h1>
             <p>{{ article.articleIntroduction }}</p>
           </router-link>
@@ -19,7 +25,7 @@
 
     <div class="pageBox">
       <el-pagination
-        v-if="totalCount/pageSize > 1"
+        v-if="totalCount / pageSize > 1"
         background
         layout="prev, pager, next"
         :total="totalCount"
@@ -33,7 +39,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
@@ -41,54 +46,62 @@ export default {
       pageInfo: null,
       currentPage: 1,
       totalCount: null,
-      pageSize: 2
+      pageSize: 2,
     };
   },
   mounted() {
     this.getArticleList();
-    this.$bus.$on('searchArticleList', (data)=>{
-      this.pageInfo = data
-    })
+    // this.searchArticleListId = PubSub.subscribe(
+    //   "searchArticleList",
+    //   this.getSearchArticleList
+    // );
+    this.$bus.$on("searchArticleList", this.getSearchArticleList);
   },
   beforeDestroy() {
-    this.$bus.$off('searchArticleList')
+    // PubSub.unsubscribe(this.searchArticleListId);
+    this.$bus.$off("searchArticleList");
   },
   methods: {
+    // 接收搜索到的文章列表
+    getSearchArticleList(data) {
+      console.log("接收到搜索文章列表", data)
+      this.pageInfo = data;
+    },
     getArticleList() {
-      this.getPageInfo(this.pageSize, this.currentPage)
+      this.getPageInfo(this.pageSize, this.currentPage);
     },
     currentChange(currentPage) {
-      this.getPageInfo(this.pageSize, currentPage)
+      this.getPageInfo(this.pageSize, currentPage);
     },
     getPageInfo(pageSize, currentPage) {
-      this.loading = true
+      this.loading = true;
       let searchParam = {
         limit: pageSize,
         page: currentPage,
         key: "基础",
         categoryId: "",
-        labelId: 9
-      }
+        labelId: 9,
+      };
       // console.log(searchParam)
       // axios.post("http://localhost:9000/blog/article/search", searchParam)
-      axios.post("http://121.199.72.90:9000/blog/article/search", searchParam)
+      axios
+        .post("http://121.199.72.90:9000/blog/article/search", searchParam)
         .then((response) => {
-          console.log(response)
-          this.pageInfo = response.data.data
-          this.currentPage = this.pageInfo.currPage
-          this.totalCount = this.pageInfo.totalCount
-          this.pageSize = this.pageInfo.pageSize
-          this.loading = false
+          console.log(response);
+          this.pageInfo = response.data.data;
+          this.currentPage = this.pageInfo.currPage;
+          this.totalCount = this.pageInfo.totalCount;
+          this.pageSize = this.pageInfo.pageSize;
+          this.loading = false;
           // console.log(this.pageInfo, this.currentPage, this.totalCount, this.pageSize)
         });
-    }
+    },
   },
 };
 </script>
 
 <style>
-
-.mainBox{
+.mainBox {
   /*background-color: rgb(52, 50, 50);*/
   background-color: #353535;
   padding-bottom: 15px;
@@ -98,10 +111,9 @@ export default {
   width: 0 !important;
 }
 
-
 .listBox {
   width: 100%;
-  color:#D9D9D9;
+  color: #d9d9d9;
   margin-bottom: 40px;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -120,8 +132,8 @@ export default {
   border-radius: 8px;
   box-shadow: #282828 0 0 10px;
   position: relative;
-  transition: box-shadow .2s;
-  border: 1px solid rgba(50, 50, 50, 0.4)
+  transition: box-shadow 0.2s;
+  border: 1px solid rgba(50, 50, 50, 0.4);
 }
 
 .listBody:hover {
@@ -137,20 +149,22 @@ export default {
   position: absolute;
   display: block;
   left: 350px;
-  top: 0
+  top: 0;
 }
 
 /*修改element默认的颜色*/
-.btn-prev, .btn-next, .number{
+.btn-prev,
+.btn-next,
+.number {
   background-color: #353535 !important;
-  color: #D9D9D9!important;
+  color: #d9d9d9 !important;
 }
 
-.active{
-  background-color: #3C6E71 !important;
+.active {
+  background-color: #3c6e71 !important;
 }
 
-.el-icon{
-  color: #D9D9D9!important;
+.el-icon {
+  color: #d9d9d9 !important;
 }
 </style>

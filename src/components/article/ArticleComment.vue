@@ -1,29 +1,35 @@
 <template>
     <div class="commentInfo">
+      <comment-add :receiveArticleId="receiveArticleId" @refreshComments="refreshComments" />
       <div class="commentBody" v-for="comment in comments">
-        <!--评论-->
-        <div class="comment">
-          <span>{{ comment.commentNickname }}</span>
-          <span>{{ comment.commentTime }}</span>
-          <p class="comment">{{ comment.content }}</p>
-          <!--回复-->
-          <div class="replyBody" v-for="reply in comment.replyResponseVOS">
-            <span>{{ reply.replyNickname }}</span>
-            <span v-if="reply.parentReplyId != 0">
-              回复 {{ reply.targetNickName }}</span
-            >
-            <br />
-            <span>{{ reply.content }}</span>
-            <p>{{ reply.replyTime }}</p>
-          </div>
-        </div>
-      </div>
+        <comment-group :comment="comment" />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+import CommentAdd from "./CommentAdd.vue";
+import axios from "axios";
+import CommentGroup from './CommentGroup.vue';
 export default {
-     props:['commnets']
-}
+  data() {
+    return {
+      comments: this.receiveComments,
+    };
+  },
+  methods: {
+    refreshComments(articleId) {
+      axios
+        .get(
+          "http://121.199.72.90:9000/blog/comment/" + articleId + "/comments"
+        )
+        .then((response) => {
+          this.comments = response.data.data
+        });
+    },
+  },
+  components: { CommentAdd, CommentGroup },
+  props: ["receiveArticleId", "receiveComments"],
+};
 </script>

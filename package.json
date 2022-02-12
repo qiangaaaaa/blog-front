@@ -13,6 +13,7 @@
     "axios": "^0.24.0",
     "element-ui": "^2.15.6",
     "node-sass": "^7.0.1",
+    "pubsub-js": "^1.9.4",
     "showdown": "^1.9.1",
     "tdesign-vue": "^0.32.0",
     "vue": "^2.5.2",

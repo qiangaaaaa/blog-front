@@ -2,7 +2,7 @@
   <div id="app">
     <el-container>
       <!--头部-->
-      <el-header height="800px">
+      <el-header height="300px">
         <blog-header />
       </el-header>
       <!--主体-->
@@ -30,12 +30,10 @@
 </template>
 
 <script>
-import ArticleList from "./components/articleList/ArticleList.vue";
-import ArticleDetail from "./components/articleDetail/ArticleDetail";
 import BlogHeader from "./components/blogHeader/BlogHeader";
 
 export default {
-  components: { BlogHeader, ArticleList, ArticleDetail },
+  components: { BlogHeader },
   name: "App",
 };
 </script>

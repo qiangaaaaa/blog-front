@@ -17,7 +17,7 @@
     <article-body :articleBody="articleContent" />
 
     <!--文章评论-->
-    <article-comment :commnets="articleDetail.comments"
+    <article-comment :receiveArticleId="articleDetail.articleId" :receiveComments="articleDetail.comments" />
   </div>
 </template>
 
