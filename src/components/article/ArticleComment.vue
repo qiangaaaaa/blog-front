@@ -3,6 +3,7 @@
       <comment-add :receiveArticleId="receiveArticleId" @refreshComments="refreshComments" />
       <div class="commentBody" v-for="comment in comments">
         <comment-group :comment="comment" />
+        <el-divider></el-divider>
       </div>
     </div>
   </div>

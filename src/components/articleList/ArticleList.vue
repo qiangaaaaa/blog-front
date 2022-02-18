@@ -11,14 +11,26 @@
           class="infinite-list-item listBody"
           v-for="article in pageInfo.list"
         >
-          <img :src="article.imageUrl" alt="" />
-          <router-link
-            :to="{ path: 'article/' + article.articleId }"
-            tag="span"
-          >
-            <h1 v-html="article.title"></h1>
+          <img
+            class="pointer"
+            :src="article.imageUrl"
+            alt=""
+            @click="toDetail(article.articleId)"
+          />
+          <span>
+            <h1
+              class="pointer"
+              v-html="article.title"
+              @click="toDetail(article.articleId)"
+            ></h1>
             <p>{{ article.articleIntroduction }}</p>
-          </router-link>
+          </span>
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-right"
+            @click="toDetail(article.articleId)"
+          ></el-button>
         </li>
       </ul>
     </div>
@@ -62,9 +74,16 @@ export default {
     this.$bus.$off("searchArticleList");
   },
   methods: {
+    // 路由跳转到文章详情
+    toDetail(articleId) {
+      this.$router.push({
+        path: "article/" + articleId,
+      });
+    },
+
     // 接收搜索到的文章列表
     getSearchArticleList(data) {
-      console.log("接收到搜索文章列表", data)
+      console.log("接收到搜索文章列表", data);
       this.pageInfo = data;
     },
     getArticleList() {
@@ -166,5 +185,10 @@ export default {
 
 .el-icon {
   color: #d9d9d9 !important;
+}
+
+/* 跳转指针样式 */
+.pointer {
+  cursor: pointer;
 }
 </style>
