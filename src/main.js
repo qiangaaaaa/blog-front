@@ -8,7 +8,7 @@ import VueRouter from 'vue-router';
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/t.css'
-// import './assets/base.css'
+import './assets/css/reset.css'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

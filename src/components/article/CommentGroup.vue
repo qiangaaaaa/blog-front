@@ -68,7 +68,8 @@ export default {
 }
 
 .content {
-  margin-bottom: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 /* 回复相关的css */
