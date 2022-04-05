@@ -1,65 +1,93 @@
 <template>
-  <div class="commentGroup">
-    <!--评论-->
-    <div class="comment">
-      <p>
-        <span>{{ comment.commentNickname }}</span>
-      </p>
-      <p class="content">{{ comment.content }}</p>
-      <p>
-        <span class="timespan">{{ comment.commentTime }}</span>
-        <span class="pointer replyspan">回复</span>
-      </p>
-    </div>
-    <!--回复-->
-    <div class="reply">
-      <div
-        class="replyBody"
-        v-for="reply in comment.replyResponseVOS.slice(0, 2)"
-      >
-        <p class="content">
-          <span>{{ reply.replyNickname }}</span>
-          <span v-if="reply.parentReplyId != 0">
-            回复 {{ reply.targetNickName }}：
-          </span>
-          <span>{{ reply.content }}</span>
-        </p>
+  <div>
+    <div class="commentGroup">
+      <!--评论-->
+      <div class="comment">
         <p>
-          <span class="timespan">{{ reply.replyTime }}</span>
-          <span class="pointer replyspan">回复</span>
+          <span class="name-span">{{ comment.commentNickname }}</span>
+        </p>
+        <p class="content">{{ comment.content }}</p>
+        <p class="content-info">
+          <span class="timespan">{{ comment.commentTime }}</span>
+          <span class="pointer replyspan" @click="openReply(comment.commentNickname)">回复</span>
         </p>
       </div>
-      <p class="replystatistics" v-if="comment.replyResponseVOS.length > 2">
-        <span>共 {{ comment.replyResponseVOS.length }} 条回复</span>
-        <span class="pointer">查看全部</span>
-      </p>
+      <!--回复-->
+      <div class="reply">
+        <div class="replyBody" v-for="reply in showReply">
+          <p class="content">
+            <span class="name-span">{{ reply.replyNickname }}</span>
+            <span class="name-span" v-if="reply.parentReplyId != 0">回复 {{ reply.targetNickName }}：</span>
+            <span>{{ reply.content }}</span>
+          </p>
+          <p>
+            <span class="timespan">{{ reply.replyTime }}</span>
+            <span class="pointer replyspan" @click="openReply(reply.replyNickname, reply.replyId)">回复</span>
+          </p>
+        </div>
+        <p class="replystatistics" v-if="comment.replyResponseVOS.length > 2 && showTip">
+          <span>共 {{ comment.replyResponseVOS.length }} 条回复</span>
+          <span class="pointer" @click="showAllReply">查看全部</span>
+        </p>
 
-      <!-- 添加回复组件 -->
-      <!-- <reply-add /> -->
-      <div class="replyadd"></div>
+        <!-- 添加回复组件 -->
+        <comment-and-reply-add v-if="replyShow"
+          :receiveContent="defaultContent"
+          :receiveType="'1'"
+          :receiveCommentId="comment.commentId"
+          :receiveParentReplyId="parentReplyId"
+          :receiveArticleId="comment.articleId"
+        />
+      </div>
     </div>
+    <el-divider></el-divider>
   </div>
 </template>
 
 <script>
+import CommentAndReplyAdd from './CommentAndReplyAdd.vue';
 export default {
   data() {
-    return {};
+    return {
+      replyShow: false,
+      defaultContent:'',
+      parentReplyId: '',
+      showReply: this.comment.replyResponseVOS.slice(0, 2),
+      showTip: true
+    };
   },
 
   props: ["comment"],
 
-  components: {},
+  components: { CommentAndReplyAdd },
 
   computed: {},
 
   mounted: {},
 
-  methods: {},
+  methods: {
+    showAllReply() {
+      this.showReply = this.comment.replyResponseVOS
+      this.showTip = false;
+    },
+    openReply(nickName, parentReplyId) {
+      this.parentReplyId = parentReplyId;
+      this.replyShow = !this.replyShow
+      this.defaultContent = 'to:' + nickName
+    }
+  },
 };
 </script>
 
 <style>
+.content-info span, .replystatistics span {
+  font-size: 6px;
+}
+
+.name-span {
+  color: #409eff;
+}
+
 .commentGroup::after {
   content: "";
   display: block;
